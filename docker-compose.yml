@@ -1,0 +1,37 @@
+
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    healthcheck:
+      test: ["CMD","pg_isready","-d","${POSTGRES_DB}","-U","${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    volumes:
+      - ./data/:/var/lib/postgresql/data/
+      - ./config/postgres/schema.pgsql:/docker-entrypoint-initdb.d/init.sql
+
+
+  casdoor:
+    image: casbin/casdoor:latest
+    entrypoint: /bin/sh -c './server --createDatabase=true'
+    ports:
+      - "${CASDOOR_PORT}:8884"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      RUNNING_IN_DOCKER: "true"
+      dataSourceName: "user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} host=localhost port=${POSTGRES_PORT} sslmode=disable dbname=${POSTGRES_DB}"
+
+    volumes:
+      - ./config/casdoor/app.conf:/conf/app.conf

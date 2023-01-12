@@ -1,0 +1,5 @@
+
+CREATE TABLE IF NOT EXISTS nest_user(
+    userid VARCHAR(10) PRIMARY KEY,
+    username VARCHAR(10) NOT NULL
+);
