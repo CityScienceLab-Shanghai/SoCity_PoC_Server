@@ -8,5 +8,5 @@
 .idea/
 .vscode/
 
-# Other
-*.DS_Store
+# OS
+.DS_Store

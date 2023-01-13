@@ -3,11 +3,12 @@ version: '3.1'
 
 services:
   postgres:
+    container_name: database
     image: postgres
     ports:
       - "${POSTGRES_PORT}:5432"
     healthcheck:
-      test: ["CMD","pg_isready","-d","${POSTGRES_DB}","-U","${POSTGRES_USER}"]
+      test: ["CMD","/bin/bash","/healthcheck.sh"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -19,9 +20,9 @@ services:
     volumes:
       - ./data/:/var/lib/postgresql/data/
       - ./config/postgres/schema.pgsql:/docker-entrypoint-initdb.d/init.sql
-
-
+      - ./config/postgres/healthcheck.sh:/healthcheck.sh
   casdoor:
+    container_name: authorization
     image: casbin/casdoor:latest
     entrypoint: /bin/sh -c './server --createDatabase=true'
     ports:
@@ -35,3 +36,34 @@ services:
 
     volumes:
       - ./config/casdoor/app.conf:/conf/app.conf
+  dev:
+    container_name: dev_backend
+    image: node:16
+    working_dir: /usr/src/app
+    ports:
+      - "${NEST_PORT}:3000"
+      - "9299:9229"
+    volumes:
+        - ./code:/usr/src/app
+    depends_on:
+      - postgres
+      - casdoor
+    environment:
+      NODE_ENV : development
+
+    command: "npm run docker:dev"
+  prod:
+    container_name: prod_backend
+    image: node:16
+    working_dir: /usr/src/app
+    ports:
+      - "${NEST_PORT}:3000"
+    volumes:
+        - ./code:/usr/src/app
+    depends_on:
+      - postgres
+      - casdoor
+    environment:
+      NODE_ENV : production
+
+    command: "npm run docker:prod"
