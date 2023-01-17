@@ -1,4 +1,3 @@
-
 version: '3.1'
 
 services:
@@ -44,12 +43,16 @@ services:
       - "${NEST_PORT}:3000"
       - "9299:9229"
     volumes:
-        - ./code:/usr/src/app
+        - ./backend:/usr/src/app
     depends_on:
       - postgres
       - casdoor
     environment:
       NODE_ENV : development
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
 
     command: "npm run docker:dev"
   prod:
@@ -58,12 +61,17 @@ services:
     working_dir: /usr/src/app
     ports:
       - "${NEST_PORT}:3000"
+    
     volumes:
-        - ./code:/usr/src/app
+        - ./backend:/usr/src/app
     depends_on:
       - postgres
       - casdoor
     environment:
       NODE_ENV : production
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
 
     command: "npm run docker:prod"
