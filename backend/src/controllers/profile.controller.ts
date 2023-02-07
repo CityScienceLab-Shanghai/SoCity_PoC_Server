@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 
-import { ProfileService } from '../services/profile.service';
+import { ProfileService } from 'src/services/profile.service';
 
 import ProfileResponse from 'src/models/response/profile.dto';
 

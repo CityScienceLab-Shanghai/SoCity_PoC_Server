@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { SDK } from 'casdoor-nodejs-sdk';
 import CaptchaResponse, {
   CaptchaVerifyResponse,
 } from 'src/models/response/captcha.dto';
@@ -20,8 +17,6 @@ export class CaptchaService {
       this.configService.get<string>('casdoorEndpoint') +
       '/api/get-captcha';
 
-    console.log(url);
-
     const response = (await Axios.get(url, {
       params: {
         id: 'admin/provider_captcha_default',
@@ -33,12 +28,10 @@ export class CaptchaService {
       },
     })) as any;
 
-    console.log(response.status, response.statusText);
-
     if (response.status == 200) {
       if (response.data.status == 'ok') {
         return {
-          status: response.data.status,
+          status: response.status,
           msg: response.statusText,
           data: {
             captchaToken: response.data.data.captchaId,
@@ -69,7 +62,9 @@ export class CaptchaService {
     captchaSecret: string,
   ): Promise<CaptchaVerifyResponse> {
     const url =
-      this.configService.get<string>('casdoorEndpoint') + '/api/verify-captcha';
+      'http://' +
+      this.configService.get<string>('casdoorEndpoint') +
+      '/api/verify-captcha';
 
     const response = (await Axios.post(
       url,
@@ -90,12 +85,12 @@ export class CaptchaService {
       if (response.data.status == 'ok' && response.data.data == true) {
         return {
           status: 'ok',
-          msg: response.statusText,
+          msg: 'Your captcha is correct',
         };
       } else {
         return {
           status: 'wrong',
-          msg: response.statusText,
+          msg: 'Your captcha is wrong',
         };
       }
     } else {

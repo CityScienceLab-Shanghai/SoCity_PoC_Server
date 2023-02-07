@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 
-import { VerificationService } from '../services/verification.service';
+import { VerificationService } from 'src/services/verification.service';
 import VerificationResponse, {
   VerificationVerifyResponse,
 } from 'src/models/response/verfication.dto';

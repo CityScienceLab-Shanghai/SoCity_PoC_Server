@@ -37,6 +37,7 @@ const configuration = () => ({
   casdoorCertificate: process.env.CASDOOR_CERTIFICATE,
   casdoorOrgName: process.env.CASDOOR_ORG_NAME,
   casdoorAppName: process.env.CASDOOR_APP_NAME,
+  env: process.env.NODE_ENV,
 });
 
 @Module({

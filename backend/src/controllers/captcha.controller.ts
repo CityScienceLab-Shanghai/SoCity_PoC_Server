@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 
-import { CaptchaService } from '../services/captcha.service';
+import { CaptchaService } from 'src/services/captcha.service';
 
 import CaptchaResponse, {
   CaptchaVerifyResponse,
-} from '../models/response/captcha.dto';
+} from 'src/models/response/captcha.dto';
 
 @Controller('/api')
 export class CaptchaController {

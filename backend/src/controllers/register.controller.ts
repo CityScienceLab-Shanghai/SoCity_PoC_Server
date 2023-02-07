@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 
-import { RegisterService } from '../services/register.service';
+import { RegisterService } from 'src/services/register.service';
 import RegisterRequest from 'src/models/request/register.dto';
 import RegisterResponse from 'src/models/response/register.dto';
 

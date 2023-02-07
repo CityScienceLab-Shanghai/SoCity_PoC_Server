@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 
-import { TransportationService } from '../services/transportation.service';
+import { TransportationService } from 'src/services/transportation.service';
 
-import CaptchaResponse from '../models/response/captcha.dto';
+import CaptchaResponse from 'src/models/response/captcha.dto';
 
 @Controller('/api')
 export class TransportationController {
