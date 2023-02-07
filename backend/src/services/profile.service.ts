@@ -7,7 +7,7 @@ import User from '../models/persistence/user.entity';
 import UserDTO from '../models/response/user.dto';
 
 @Injectable()
-export class AppService {
+export class ProfileService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,

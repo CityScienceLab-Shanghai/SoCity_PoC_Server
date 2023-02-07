@@ -13,6 +13,21 @@ class casdoor_user {
 
   @Column()
   public avatar: string;
+
+  @Column()
+  public id: string;
+
+  @Column()
+  public display_name: string;
+
+  @Column()
+  public email: string;
+
+  @Column()
+  public homepage: string;
+
+  @Column()
+  public bio: string;
 }
 
 export default casdoor_user;
