@@ -2,26 +2,47 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import User from '../models/persistence/user.entity';
+import DistanceIncrement from 'src/models/persistence/distance_increment.entity';
+import TransportationRecord from 'src/models/persistence/transportation_record.entity';
 
-import UserDTO from '../models/response/user.dto';
-
+import TransportationDTO, {
+  DistanceIncrementDTO,
+} from 'src/models/request/transportation.dto';
+import TransportationResponse from 'src/models/response/transportation.dto';
+import { format } from 'date-fns';
 @Injectable()
 export class TransportationService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    @InjectRepository(TransportationRecord)
+    private transportationRecordRepo: Repository<TransportationRecord>,
+
+    @InjectRepository(DistanceIncrement)
+    private distanceIncrementRepo: Repository<DistanceIncrement>,
   ) {}
 
-  async getOneByName(name: string): Promise<UserDTO> {
-    const user = (await this.usersRepository.findOneBy({
-      name: name,
-    })) as User;
+  async postOneLog(record: TransportationDTO): Promise<TransportationResponse> {
+    const recordId = Math.floor(Math.random() * 100000000);
+    const res1 = await this.transportationRecordRepo.save([
+      {
+        transportation_record_id: recordId,
+        timestamp: format(record.timestamp, 'yyyy-MM-dd HH:mm:ss'),
+      } as TransportationRecord,
+    ]);
+
+    const res = await this.distanceIncrementRepo.save(
+      record.increments.map((increment) => {
+        return {
+          distance_increments_id: Math.floor(Math.random() * 100000000),
+          method: increment.method,
+          increment: increment.increment,
+          transportation_record: recordId,
+        } as DistanceIncrement;
+      }),
+    );
 
     return {
-      owner: user.owner,
-      created_time: user.created_time,
-      avatar: user.avatar,
-    } as UserDTO;
+      msg: 'success',
+      status: '200',
+    };
   }
 }

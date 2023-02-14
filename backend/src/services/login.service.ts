@@ -1,13 +1,18 @@
+import { AuthorizationService } from './authorization.service';
 import AxiosResponse from 'src/models/axios.dto';
 import LoginResponse from 'src/models/response/login.dto';
 import LoginRequest from 'src/models/request/login.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Query } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Axios from 'axios';
+import LogoutResponse from 'src/models/response/logout.dto';
 
 @Injectable()
 export class LoginService {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private readonly authorizationService: AuthorizationService,
+  ) {}
 
   async login(body: LoginRequest): Promise<LoginResponse> {
     const url =
@@ -17,10 +22,7 @@ export class LoginService {
 
     const env = this.configService.get<string>('env');
 
-    const host =
-      env === 'development'
-        ? 'http://dev_backend:3000'
-        : 'http://prod_backend:3000';
+    const host = env === 'development' ? 'http://dev:3000' : 'http://prod:3000';
 
     const response = (await Axios.post(
       url,
@@ -56,17 +58,22 @@ export class LoginService {
       },
     )) as AxiosResponse;
 
-    console.log(response);
-
     if (response.data.status == 'ok') {
-      return {
-        status: 'ok',
-        msg: response.data.msg,
-        data: {
-          access_token: response.data.data,
-          expire_time: Date.now(),
-        },
-      };
+      if (response.data.data) {
+        const token = await this.authorizationService.getAccessToken(
+          response.data.data,
+        );
+        if (token) {
+          return {
+            status: 'ok',
+            msg: response.data.msg,
+            data: {
+              access_token: token,
+              expire_time: Date.now(),
+            },
+          };
+        }
+      }
     }
     return {
       status: 'error',
@@ -75,6 +82,37 @@ export class LoginService {
         access_token: '',
         expire_time: 0,
       },
+    };
+  }
+
+  async logout(token: string): Promise<LogoutResponse> {
+    const url =
+      'http://' +
+      this.configService.get<string>('casdoorEndpoint') +
+      '/api/delete-token';
+
+    const response = (await Axios.post(
+      url,
+      {
+        access_token: await this.authorizationService.getUserToken(token),
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )) as AxiosResponse;
+
+    if (response.status == 200) {
+      return {
+        msg: response.data.status,
+        status: response.data.status,
+      };
+    }
+
+    return {
+      msg: '',
+      status: 'ok',
     };
   }
 }

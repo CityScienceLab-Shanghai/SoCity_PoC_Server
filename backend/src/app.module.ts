@@ -15,22 +15,17 @@ import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
 
 import User from './models/persistence/user.entity';
+import DistanceIncrement from './models/persistence/distance_increment.entity';
+import TransportationRecord from './models/persistence/transportation_record.entity';
 
 import { Config, SDK } from 'casdoor-nodejs-sdk';
 import { VerificationService } from './services/verification.service';
 import { ProfileService } from './services/profile.service';
 import { TransportationService } from './services/transportation.service';
 import { ClockService } from './services/clock.service';
+import { AuthorizationService } from './services/authorization.service';
 
 const configuration = () => ({
-  casdoor: new SDK({
-    endpoint: 'casdoor:8884',
-    clientId: process.env.CASDOOR_CLIENT_ID,
-    clientSecret: process.env.CASDOOR_CLIENT_SECRET,
-    certificate: process.env.CASDOOR_CERTIFICATE,
-    orgName: process.env.CASDOOR_ORG_NAME,
-    appName: process.env.CASDOOR_APP_NAME,
-  } as Config),
   casdoorEndpoint: 'casdoor:8884',
   casdoorClientId: process.env.CASDOOR_CLIENT_ID,
   casdoorClientSecret: process.env.CASDOOR_CLIENT_SECRET,
@@ -52,11 +47,11 @@ const configuration = () => ({
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User],
+      entities: [User, TransportationRecord, DistanceIncrement],
       ssl: false,
       synchronize: false,
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, TransportationRecord, DistanceIncrement]),
   ],
   controllers: [
     LoginController,
@@ -75,6 +70,7 @@ const configuration = () => ({
     ProfileService,
     TransportationService,
     ClockService,
+    AuthorizationService,
   ],
 })
 export class AppModule {}

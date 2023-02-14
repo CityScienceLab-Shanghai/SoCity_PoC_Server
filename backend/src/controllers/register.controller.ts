@@ -10,8 +10,13 @@ export class RegisterController {
 
   @Post('/register')
   register(@Body() body: RegisterRequest): Promise<RegisterResponse> {
-    return null;
-
-    //return null;
+    return this.appService.register(
+      body.username,
+      body.email,
+      body.password,
+      body.wallet,
+      body.description,
+      body.codeSecret,
+    );
   }
 }

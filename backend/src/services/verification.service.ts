@@ -54,4 +54,8 @@ export class VerificationService {
       data: { codeToken: '' },
     };
   }
+
+  async verfify(): Promise<VerificationResponse> {
+    return null;
+  }
 }
