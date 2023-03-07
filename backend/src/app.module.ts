@@ -11,6 +11,8 @@ import { LoginController } from './controllers/login.controller';
 import { RegisterController } from './controllers/register.controller';
 import { CaptchaController } from './controllers/captcha.controller';
 
+import { ContractController } from './controllers/contract.controller';
+
 import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
 
@@ -18,12 +20,12 @@ import User from './models/persistence/user.entity';
 import DistanceIncrement from './models/persistence/distance_increment.entity';
 import TransportationRecord from './models/persistence/transportation_record.entity';
 
-import { Config, SDK } from 'casdoor-nodejs-sdk';
 import { VerificationService } from './services/verification.service';
 import { ProfileService } from './services/profile.service';
 import { TransportationService } from './services/transportation.service';
 import { ClockService } from './services/clock.service';
 import { AuthorizationService } from './services/authorization.service';
+import { ContractService } from './services/contract.service';
 
 const configuration = () => ({
   casdoorEndpoint: 'casdoor:8884',
@@ -61,6 +63,7 @@ const configuration = () => ({
     ProfileController,
     TransportationController,
     ClockController,
+    ContractController,
   ],
   providers: [
     LoginService,
@@ -71,6 +74,7 @@ const configuration = () => ({
     TransportationService,
     ClockService,
     AuthorizationService,
+    ContractService,
   ],
 })
 export class AppModule {}

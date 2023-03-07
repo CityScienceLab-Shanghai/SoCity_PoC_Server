@@ -35,6 +35,27 @@ services:
 
     volumes:
       - ./config/casdoor/app.conf:/conf/app.conf
+
+  hardhat:
+    container_name: contract
+    image: node:16
+    working_dir: /usr/src/app
+    ports:
+      - "${HARDHAT_PORT}:8545"
+
+    volumes:
+        - ./contract:/usr/src/app
+        - ./backend/assets/contracts:/usr/src/artifacts/contracts
+
+    environment:
+      NODE_ENV : development
+      HARDHAT_PORT : ${HARDHAT_PORT}
+      ALCHEMY_PRIVATE_KEY : ${ALCHEMY_PRIVATE_KEY}
+      GOERLI_RPC_URL : ${GOERLI_RPC_URL}
+
+    command: "npm run contract"
+
+    
   dev:
     container_name: dev_backend
     image: node:16
@@ -42,11 +63,15 @@ services:
     ports:
       - "${NEST_PORT}:3000"
       - "9299:9229"
+
     volumes:
         - ./backend:/usr/src/app
+        
     depends_on:
       - postgres
       - casdoor
+      - hardhat
+
     environment:
       NODE_ENV : development
       POSTGRES_USER: ${POSTGRES_USER}
@@ -70,9 +95,11 @@ services:
     
     volumes:
         - ./backend:/usr/src/app
+
     depends_on:
       - postgres
       - casdoor
+
     environment:
       NODE_ENV : production
       POSTGRES_USER: ${POSTGRES_USER}
