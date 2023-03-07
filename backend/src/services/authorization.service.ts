@@ -1,5 +1,4 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import Axios from 'axios';
 import * as jwt from 'jsonwebtoken';

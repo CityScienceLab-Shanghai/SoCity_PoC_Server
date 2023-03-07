@@ -6,6 +6,7 @@ import { CaptchaService } from './services/captcha.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { LoginController } from './controllers/login.controller';
 import { RegisterController } from './controllers/register.controller';
@@ -39,6 +40,7 @@ const configuration = () => ({
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       load: [configuration],
     }),
