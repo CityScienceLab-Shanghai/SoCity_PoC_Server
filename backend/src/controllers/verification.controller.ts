@@ -21,10 +21,4 @@ export class VerificationController {
     );
   }
 
-  @Get('/verification')
-  verifyVerification(
-    @Query() query: { codeToken: string; codeSecret },
-  ): Promise<VerificationVerifyResponse> {
-    return null;
-  }
 }

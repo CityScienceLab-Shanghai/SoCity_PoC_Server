@@ -28,6 +28,9 @@ class casdoor_user {
 
   @Column()
   public bio: string;
+
+  @Column()
+  public password: string;
 }
 
 export default casdoor_user;

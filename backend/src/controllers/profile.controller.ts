@@ -5,14 +5,18 @@ import {
   Headers,
   Post,
   Query,
+  Body,
   Req,
   UseGuards,
 } from '@nestjs/common';
 
 import { ProfileService } from 'src/services/profile.service';
 
-import ProfileResponse from 'src/models/response/profile.dto';
+import ProfileResponse,{UserResponse} from 'src/models/response/profile.dto';
+import {UserRequest} from 'src/models/request/profile.dto'
 import { AuthGuard } from './auth.grard';
+
+
 @Controller('/api')
 export class ProfileController {
   constructor(private readonly appService: ProfileService) {}
@@ -30,6 +34,14 @@ export class ProfileController {
     } else {
       return this.appService.getOneByEmail(query.email);
     }
+  }
+
+  @Post('/profile')
+  @UseGuards(AuthGuard)
+  postProfile(
+    @Body() body:UserRequest
+  ):Promise<UserResponse> {
+    return this.appService.update(body);
   }
 
   @Get('/profiles')

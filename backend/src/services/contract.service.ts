@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
+import { ContractResponse } from 'src/models/response/contracts.dto'
+
 import * as fs from 'fs';
 
 @Injectable()
 export class ContractService {
-  async getContracts(): Promise<object> {
+  async getContracts(): Promise<ContractResponse[]> {
     const files = fs.readdirSync('./assets/contracts');
 
     return files.map((file) => {

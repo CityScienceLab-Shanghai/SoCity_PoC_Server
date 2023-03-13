@@ -55,7 +55,4 @@ export class VerificationService {
     };
   }
 
-  async verfify(): Promise<VerificationResponse> {
-    return null;
-  }
 }

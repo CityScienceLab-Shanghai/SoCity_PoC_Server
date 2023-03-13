@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import User from 'src/models/persistence/user.entity';
-import ProfileResponse from 'src/models/response/profile.dto';
+import ProfileResponse, { UserResponse } from 'src/models/response/profile.dto';
 import { AuthorizationService } from './authorization.service';
+import { UserRequest } from 'src/models/request/profile.dto';
 
 @Injectable()
 export class ProfileService {
@@ -20,11 +21,11 @@ export class ProfileService {
     })) as User;
 
     return {
-      username: user.name,
+      username: user.display_name,
       email: user.email,
       wallet: user.homepage,
       description: user.bio,
-      id: user.id,
+      id: user.name,
     };
   }
 
@@ -34,11 +35,11 @@ export class ProfileService {
     })) as User;
 
     return {
-      username: user.name,
+      username: user.display_name,
       email: user.email,
       wallet: user.homepage,
       description: user.bio,
-      id: user.id,
+      id: user.name,
     };
   }
 
@@ -51,11 +52,11 @@ export class ProfileService {
     })) as User;
 
     return {
-      username: user.name,
+      username: user.display_name,
       email: user.email,
       wallet: user.homepage,
       description: user.bio,
-      id: user.id,
+      id: user.name,
     };
   }
 
@@ -64,12 +65,52 @@ export class ProfileService {
 
     return users.map((user) => {
       return {
-        username: user.name,
+        username: user.display_name,
         email: user.email,
         wallet: user.homepage,
         description: user.bio,
-        id: user.id,
+        id: user.name,
       };
     });
+  }
+
+  async update(body:UserRequest):Promise<UserResponse>{
+    
+    const user = (await this.usersRepository.findOneBy({
+      name: body.id,
+    })) as User;
+
+    if(!user){
+      return {
+        msg:"not exist",
+        status:"error"
+      }
+    }
+
+    const params = {
+      created_time: null,
+      avatar: null,
+      display_name: body.username,
+      password : body.password,
+      email: body.email,
+      homepage: body.wallet,
+      bio: body.description
+    };
+
+    for (let item in params) {
+       if (typeof(params[item]) === 'undefined' || params[item] === null || params[item] === '') {
+         delete params[item]
+      }
+    }
+
+    await this.usersRepository.save({
+      ...user,
+      ...params
+    });
+    
+    return {
+      msg:'success',
+      status:'OK'
+    }
   }
 }

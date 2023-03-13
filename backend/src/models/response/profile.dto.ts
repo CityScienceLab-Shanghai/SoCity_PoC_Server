@@ -14,3 +14,8 @@ export default class ProfileResponse {
   public username: string;
   public wallet: null | string;
 }
+
+export interface UserResponse {
+  msg: string;
+  status: string;
+}
