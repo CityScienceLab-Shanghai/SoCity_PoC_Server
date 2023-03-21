@@ -47,7 +47,6 @@ services:
 
     environment:
       NODE_ENV : development
-      HARDHAT_PORT : ${HARDHAT_PORT}
       ALCHEMY_PRIVATE_KEY : ${ALCHEMY_PRIVATE_KEY}
       GOERLI_RPC_URL : ${GOERLI_RPC_URL}
 

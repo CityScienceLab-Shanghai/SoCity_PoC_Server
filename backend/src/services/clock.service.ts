@@ -19,7 +19,7 @@ export class ClockService {
   async triggerSettlement() {
     this.logger.log('Triggered once every 30 seconds');
 
-    const privateKey = process.env.ALCHEMY_PRIVATE_KEY || ''; 
+    const privateKey = process.env.ALCHEMY_PRIVATE_KEY || '';
 
     const publicKey = process.env.ALCHEMY_PUBLIC_KEY || '';
 

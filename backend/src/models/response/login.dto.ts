@@ -1,7 +1,7 @@
 class LoginResponse {
   public data: LoginToken;
   public msg: string;
-  public status: string;
+  public status: number;
 }
 
 class LoginToken {

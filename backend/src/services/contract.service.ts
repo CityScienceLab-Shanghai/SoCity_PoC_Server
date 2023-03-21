@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { ContractResponse } from 'src/models/response/contracts.dto'
+import { ContractResponse } from 'src/models/response/contracts.dto';
 
 import * as fs from 'fs';
 

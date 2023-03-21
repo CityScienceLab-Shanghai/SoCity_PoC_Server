@@ -1,12 +1,12 @@
 class CaptchaResponse {
   public data: Captcha;
   public msg: string;
-  public status: string;
+  public status: number;
 }
 
 class CaptchaVerifyResponse {
   public msg: string;
-  public status: string;
+  public status: number;
 }
 
 class Captcha {

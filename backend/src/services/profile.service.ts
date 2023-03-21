@@ -74,43 +74,46 @@ export class ProfileService {
     });
   }
 
-  async update(body:UserRequest):Promise<UserResponse>{
-    
+  async update(body: UserRequest): Promise<UserResponse> {
     const user = (await this.usersRepository.findOneBy({
       name: body.id,
     })) as User;
 
-    if(!user){
+    if (!user) {
       return {
-        msg:"not exist",
-        status:"error"
-      }
+        msg: 'not exist',
+        status: 400,
+      };
     }
 
     const params = {
       created_time: null,
       avatar: null,
       display_name: body.username,
-      password : body.password,
+      password: body.password,
       email: body.email,
       homepage: body.wallet,
-      bio: body.description
+      bio: body.description,
     };
 
-    for (let item in params) {
-       if (typeof(params[item]) === 'undefined' || params[item] === null || params[item] === '') {
-         delete params[item]
+    for (const item in params) {
+      if (
+        typeof params[item] === 'undefined' ||
+        params[item] === null ||
+        params[item] === ''
+      ) {
+        delete params[item];
       }
     }
 
     await this.usersRepository.save({
       ...user,
-      ...params
+      ...params,
     });
-    
+
     return {
-      msg:'success',
-      status:'OK'
-    }
+      msg: 'success',
+      status: 400,
+    };
   }
 }

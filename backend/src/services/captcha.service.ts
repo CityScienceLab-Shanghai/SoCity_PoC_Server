@@ -51,7 +51,7 @@ export class CaptchaService {
     }
 
     return {
-      status: 'error',
+      status: 400,
       msg: 'Your request failed',
       data: {},
     } as CaptchaResponse;
@@ -82,20 +82,20 @@ export class CaptchaService {
     )) as AxiosResponse;
 
     if (response.status == 200) {
-      if (response.data.status == 'ok' && response.data.data == true) {
+      if (response.data.status == 200 && response.data.data == true) {
         return {
-          status: 'ok',
+          status: 200,
           msg: 'Your captcha is correct',
         };
       } else {
         return {
-          status: 'wrong',
+          status: 400,
           msg: 'Your captcha is wrong',
         };
       }
     } else {
       return {
-        status: 'error',
+        status: 400,
         msg: 'Your request failed',
       };
     }

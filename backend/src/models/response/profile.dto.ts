@@ -17,5 +17,5 @@ export default class ProfileResponse {
 
 export interface UserResponse {
   msg: string;
-  status: string;
+  status: number;
 }

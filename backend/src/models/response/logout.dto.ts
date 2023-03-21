@@ -1,6 +1,6 @@
 class LogoutResponse {
   public msg: string;
-  public status: string;
+  public status: number;
 }
 
 export default LogoutResponse;

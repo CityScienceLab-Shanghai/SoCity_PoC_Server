@@ -20,5 +20,4 @@ export class VerificationController {
       body.captchaSecret,
     );
   }
-
 }

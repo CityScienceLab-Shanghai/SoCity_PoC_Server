@@ -3,7 +3,7 @@ export default interface AxiosResponse {
   statusText?: string;
   headers?: any;
   data?: {
-    status?: string;
+    status?: number;
     msg?: string;
     data?: any;
   };

@@ -12,10 +12,9 @@ import {
 
 import { ProfileService } from 'src/services/profile.service';
 
-import ProfileResponse,{UserResponse} from 'src/models/response/profile.dto';
-import {UserRequest} from 'src/models/request/profile.dto'
+import ProfileResponse, { UserResponse } from 'src/models/response/profile.dto';
+import { UserRequest } from 'src/models/request/profile.dto';
 import { AuthGuard } from './auth.grard';
-
 
 @Controller('/api')
 export class ProfileController {
@@ -38,9 +37,7 @@ export class ProfileController {
 
   @Post('/profile')
   @UseGuards(AuthGuard)
-  postProfile(
-    @Body() body:UserRequest
-  ):Promise<UserResponse> {
+  postProfile(@Body() body: UserRequest): Promise<UserResponse> {
     return this.appService.update(body);
   }
 

@@ -43,21 +43,21 @@ export class RegisterService {
     )) as AxiosResponse;
 
     if (response.status == 200) {
-      if (response.data.status == 'ok') {
+      if (response.data.status == 200) {
         return {
-          status: 'ok',
+          status: 200,
           msg: response.data.msg,
         };
       } else {
         return {
-          status: 'error',
+          status: 400,
           msg: response.data.msg,
         };
       }
     }
 
     return {
-      status: 'error',
+      status: 400,
       msg: 'Your request failed',
     };
   }

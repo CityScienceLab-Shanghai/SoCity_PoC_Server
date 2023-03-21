@@ -1,7 +1,7 @@
 class VerificationResponse {
   public data: Verification;
   public msg: string;
-  public status: string;
+  public status: number;
 }
 
 class Verification {
@@ -10,7 +10,7 @@ class Verification {
 
 class VerificationVerifyResponse {
   public msg: string;
-  public status: string;
+  public status: number;
 }
 
 export default VerificationResponse;

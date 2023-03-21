@@ -40,7 +40,7 @@ export class VerificationService {
 
     if (response.status == 200) {
       return {
-        msg: response.data.status,
+        msg: response.data.msg,
         status: response.data.status,
         data: {
           codeToken: email,
@@ -49,10 +49,9 @@ export class VerificationService {
     }
 
     return {
-      status: 'error',
+      status: 400,
       msg: 'Your request failed',
       data: { codeToken: '' },
     };
   }
-
 }

@@ -58,14 +58,14 @@ export class LoginService {
       },
     )) as AxiosResponse;
 
-    if (response.data.status == 'ok') {
+    if (response.data.status == 200) {
       if (response.data.data) {
         const token = await this.authorizationService.getAccessToken(
           response.data.data,
         );
         if (token) {
           return {
-            status: 'ok',
+            status: 200,
             msg: response.data.msg,
             data: {
               access_token: token,
@@ -76,7 +76,7 @@ export class LoginService {
       }
     }
     return {
-      status: 'error',
+      status: 400,
       msg: 'Your request failed',
       data: {
         access_token: '',
@@ -105,14 +105,14 @@ export class LoginService {
 
     if (response.status == 200) {
       return {
-        msg: response.data.status,
+        msg: response.data.msg,
         status: response.data.status,
       };
     }
 
     return {
-      msg: '',
-      status: 'ok',
+      msg: 'ok',
+      status: 200,
     };
   }
 }

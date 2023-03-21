@@ -42,7 +42,7 @@ export class TransportationService {
 
     return {
       msg: 'success',
-      status: '200',
+      status: 200,
     };
   }
 }
