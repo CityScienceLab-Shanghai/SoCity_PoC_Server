@@ -19,26 +19,28 @@ export class ClockService {
   async triggerSettlement() {
     this.logger.log('Triggered once every 30 seconds');
 
-    const privateKey = process.env.ALCHEMY_PRIVATE_KEY || '';
+    // const privateKey = process.env.ALCHEMY_PRIVATE_KEY || '';
 
-    const publicKey = process.env.ALCHEMY_PUBLIC_KEY || '';
+    // const publicKey = process.env.ALCHEMY_PUBLIC_KEY || '';
 
-    const network = process.env.GOERLI_RPC_URL || '';
+    // const network = process.env.GOERLI_RPC_URL || '';
 
-    const provider = ethers.getDefaultProvider(network);
+    // const provider = ethers.getDefaultProvider(network);
 
-    const wallet = new ethers.Wallet(privateKey, provider);
+    // const wallet = new ethers.Wallet(privateKey, provider);
 
-    const contracts =
-      (await this.contractService.getContracts()) as ContractResponse[];
+    // const contracts =
+    //   (await this.contractService.getContracts()) as ContractResponse[];
 
-    const { name, abi, address } = contracts.find(
-      (contract) => contract.name === 'Token',
-    );
+    // const { name, abi, address } = contracts.find(
+    //   (contract) => contract.name === 'Token',
+    // );
 
-    const contract = new ethers.Contract(address, abi, wallet);
+    // const contract = new ethers.Contract(address, abi, wallet);
 
-    const rest = await contract.balanceOf(publicKey);
+    //const rest = await contract.balanceOf(publicKey);
+
+    const rest = 'ok';
 
     this.logger.log('Rest balance:' + rest.toString());
   }

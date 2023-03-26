@@ -42,7 +42,7 @@ services:
     working_dir: /usr/src/app
 
     volumes:
-        - ./contract:/usr/src/app
+        - ./SoCity_Smart_Contract:/usr/src/app
         - ./backend/assets/contracts:/usr/src/artifacts/contracts
 
     environment:
